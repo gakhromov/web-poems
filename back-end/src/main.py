@@ -14,17 +14,12 @@ def hello_world():
 @app.route('/poem-info', methods=['POST'])
 def poem_info():
     poem = request.json['poem']
-    return get_poem_info(poem)
-
-
-@app.route('/grade-poem', methods=['POST'])
-def grade_poem_request():
-    if 'info' in request.json.keys():
-        info = request.json['info']
-    else:
-        poem = request.json['poem']
-        info = get_poem_info(poem)
-    return grade_poem(info)
+    info = get_poem_info(poem)
+    grades = grade_poem(info)
+    return {
+        'info': info,
+        'grades': grades,
+    }
 
 
 if __name__ == '__main__':
