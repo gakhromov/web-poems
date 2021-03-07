@@ -7,6 +7,8 @@ name = "pypi"
 flask = "*"
 pymongo = "*"
 pusher = "*"
+russtress = "*"
+rusyllab = {git = "https://github.com/Koziev/rusyllab"}
 
 [dev-packages]
 
