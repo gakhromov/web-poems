@@ -98,6 +98,7 @@ def grade_poem(poem_info):
     points = dict()
     lines_that_are_in_rhyme = set()
     format_points = lambda x: f'+{x}' if x >= 0 else str(x)
+    modulus = lambda x: -x if x < 0 else x
 
     for i in poem_info.keys():
         points[i] = {'points': 0, 'comments': []}
@@ -124,6 +125,15 @@ def grade_poem(poem_info):
         points[i]['comments'].append(
             format_points(max_p) + ': За стихотворный размер'
         )
+        # check syllab count
+        cur_syl_count = len(poem_info[i]['stress_pattern'])
+        first_syl_count = len(poem_info['0']['stress_pattern'])
+        diff = modulus(first_syl_count - cur_syl_count)
+        if diff > 1:
+            points[i]['points'] += grading_rules.COEFF_SYLLAB_COUNT_DIFFERS * diff
+            points[i]['comments'].append(
+                format_points(grading_rules.COEFF_SYLLAB_COUNT_DIFFERS * diff) + ': Количество слогов сильно отличается от первой строки'
+            )
         
     # check lines that have no rhyming lines
     for i in poem_info.keys():

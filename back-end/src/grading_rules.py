@@ -10,3 +10,5 @@ STRESS_PATTERN_POINTS = {
     'амфибрахий': 3,
     'анапест': 3,
 }
+
+COEFF_SYLLAB_COUNT_DIFFERS = -1
