@@ -4,8 +4,8 @@ import random
 from flask import Flask, request
 import pusher
 
-from poem_grader import get_poem_info, grade_poem
-import vault
+from src.poem_grader import get_poem_info, grade_poem
+import src.vault
 
 
 app = Flask(__name__)
@@ -97,7 +97,7 @@ def submit_line():
         return {}, 400
     vault.sessions[session_id]['lines'][-1]['line'] = new_line
 
-    new_player = (len(vault.sessions[session_id]['lines'])-2) % len(vault.sessions[session_id]['players'])
+    new_player = (len(vault.sessions[session_id]['lines'])-1) % len(vault.sessions[session_id]['players'])
 
     vault.sessions[session_id]['lines'].append({
         'line': None,

@@ -1,1 +1,1 @@
-sessions = {'players': [], 'lines': []}
+sessions = {}

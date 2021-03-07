@@ -3,7 +3,7 @@ import re
 import rusyllab
 import russtress
 
-import grading_rules
+import src.grading_rules
 
 
 ALPHABET = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
