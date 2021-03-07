@@ -8,6 +8,6 @@ services:
     ports:
       - 9000:9000
     command:
-      python /code/src/main.py
+      python /code/app.py
     volumes:
       - ./back-end:/code
