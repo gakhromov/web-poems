@@ -101,6 +101,8 @@ def grade_poem(poem_info):
 
     for i in poem_info.keys():
         points[i] = {'points': 0, 'comments': []}
+
+        # check rhymes
         if 'rhymes_with' in poem_info[i].keys():
             points[i]['points'] += grading_rules.RHYMES_WITH_ONE_LINE
             points[i]['comments'].append(
@@ -108,7 +110,22 @@ def grade_poem(poem_info):
             )
             lines_that_are_in_rhyme.add(int(i))
             lines_that_are_in_rhyme.add(int(poem_info[i]['rhymes_with']))
-    
+        
+        # get most popular stress pattern
+        most_popular_value = max(poem_info[i]['stress_pattern_stats'].values())
+        most_popular_pattern_points = []
+        for t in poem_info[i]['stress_pattern_stats'].keys():
+            if poem_info[i]['stress_pattern_stats'][t] == most_popular_value:
+                # get points from most popular pattern types
+                most_popular_pattern_points.append(grading_rules.STRESS_PATTERN_POINTS[t])
+        # give the max point
+        max_p = max(most_popular_pattern_points)
+        points[i]['points'] += max_p
+        points[i]['comments'].append(
+            format_points(max_p) + ': За стихотворный размер'
+        )
+        
+    # check lines that have no rhyming lines
     for i in poem_info.keys():
         if int(i) not in lines_that_are_in_rhyme:
             points[i]['points'] += grading_rules.LINE_THAT_DOES_NOT_RHYME
