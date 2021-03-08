@@ -7,6 +7,7 @@ export const NavigationBar = () => {
             {/*<Navbar.Brand href="#home">*/}
             {/*    LOGO*/}
             {/*</Navbar.Brand>*/}
+            <img src="/logo.png" alt="" height="70"/>
             <Nav className="mr-auto">
                 <Nav.Link href="#home" className="active" >Оцени свой стих</Nav.Link>
                 <Nav.Link href="#features">Соревнование</Nav.Link>
