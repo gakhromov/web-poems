@@ -39,7 +39,7 @@ def deleteDataInDBEspesiallyForGrigoryKhromov():
     return {"message":f' deleted {res.deleted_count} pieces of shit'}, 200
 
 
-@app.route('/leaderboard', methods = ['GET'])
+@app.route('/leaderboard', methods = ['POST'])
 def readFullLeaderBoard():
     singlemode = request.json['single']
     amount = request.json['amount']
