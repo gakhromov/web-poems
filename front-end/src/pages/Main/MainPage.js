@@ -1,20 +1,19 @@
 import React from 'react'
-import {Container, Form, Button} from "react-bootstrap";
-
-const Results = () => (
-    <div>
-        Some Results
-    </div>
-)
+import {Container, Form, Button, Alert} from "react-bootstrap";
 
 export class MainPage extends React.Component {
-    state = {
-        showResults: false
+    constructor(props) {
+        super(props)
+        this.state = {
+            showResults: false,
+            grade: null,
+        }
     }
 
     updateResultField = (data) => {
-        this.setState({ showResults: true })
-        console.log("data: ", data, "showResults: ", this.showResults)
+        this.setState({ showResults: !this.state.showResults, grade: data.grades.poem })
+        // console.log("data inside updateResultField: ", data.grades.poem, "showResults: ", this.showResults)
+        // console.log("state inside updateResultField", this.state)
     }
 
     getResult = () => {
@@ -28,6 +27,7 @@ export class MainPage extends React.Component {
         }
         fetch('http://localhost:9000/poem-info', requestOptions)
             .then(async response => {
+                // console.log('click!')
                 const data = await response.json();
 
                 if (!response.ok) {
@@ -44,8 +44,12 @@ export class MainPage extends React.Component {
     }
 
     render() {
-        const res = (this.showResults) ? <Results /> : null
-        console.log(this.state, res)
+        const gradeOfPoemShow = (
+            <Alert variant="success">
+                Ваша оценка: {this.state.grade}
+            </Alert>
+        )
+        // console.log("state inside render: ", this.state)
 
         return (
             <Container>
@@ -61,7 +65,7 @@ export class MainPage extends React.Component {
                     </Form.Group>
                 </Form>
                 <Button variant="primary" onClick={this.getResult}>Проверить стих</Button>
-                { res }
+                { (this.state.showResults) ? gradeOfPoemShow : null }
             </Container>
         )
     }
