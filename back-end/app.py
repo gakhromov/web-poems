@@ -33,6 +33,10 @@ pusher_client = pusher.Pusher(
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
+@app.route('/delete/shit', methods = ['POST'])
+def deleteDataInDBEspesiallyForGrigoryKhromov():
+    leaderboard.delete_many()
+
 
 @app.route('/leaderboard', methods = ['GET'])
 def readFullLeaderBoard():
