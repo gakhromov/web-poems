@@ -1,5 +1,6 @@
 import React from 'react'
 import {Container, Form, Button, Alert} from "react-bootstrap";
+import {NavigationBar} from "../../components/nav/Nav";
 
 export class MainPage extends React.Component {
     constructor(props) {
@@ -12,8 +13,6 @@ export class MainPage extends React.Component {
 
     updateResultField = (data) => {
         this.setState({ showResults: !this.state.showResults, grade: data.grades.poem })
-        // console.log("data inside updateResultField: ", data.grades.poem, "showResults: ", this.showResults)
-        // console.log("state inside updateResultField", this.state)
     }
 
     getResult = () => {
@@ -49,24 +48,26 @@ export class MainPage extends React.Component {
                 Ваша оценка: {this.state.grade}
             </Alert>
         )
-        // console.log("state inside render: ", this.state)
 
         return (
-            <Container>
-                <Form>
-                    <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label>Твое имя</Form.Label>
-                        <Form.Control type="text" placeholder="Мария" ref={(ref) => {this.firstName = ref}} />
-                    </Form.Group>
+            <>
+                <NavigationBar/>
+                <Container>
+                    <Form>
+                        <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Твое имя</Form.Label>
+                            <Form.Control type="text" placeholder="Мария" ref={(ref) => {this.firstName = ref}} />
+                        </Form.Group>
 
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Твой стих</Form.Label>
-                        <Form.Control as="textarea" rows={4} ref={(ref) => {this.poem = ref}} />
-                    </Form.Group>
-                </Form>
-                <Button variant="primary" onClick={this.getResult}>Проверить стих</Button>
-                { (this.state.showResults) ? gradeOfPoemShow : null }
-            </Container>
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Твой стих</Form.Label>
+                            <Form.Control as="textarea" rows={4} ref={(ref) => {this.poem = ref}} />
+                        </Form.Group>
+                    </Form>
+                    <Button variant="primary" onClick={this.getResult}>Проверить стих</Button>
+                    { (this.state.showResults) ? gradeOfPoemShow : null }
+                </Container>
+            </>
         )
     }
 }
