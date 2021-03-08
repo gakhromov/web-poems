@@ -1,8 +1,8 @@
 import React from 'react'
-import {Container, Form, Button, Alert} from "react-bootstrap";
-import {NavigationBar} from "../../components/nav/Nav";
+import {Container, Form, Button, Alert} from "react-bootstrap"
+import {NavigationBar} from "../../components/nav/Nav"
 
-export class MainPage extends React.Component {
+export class SingleUserModePage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -26,20 +26,19 @@ export class MainPage extends React.Component {
         }
         fetch('http://localhost:9000/poem-info', requestOptions)
             .then(async response => {
-                // console.log('click!')
-                const data = await response.json();
+                const data = await response.json()
 
                 if (!response.ok) {
-                    const error = (data && data.message) || response.status;
+                    const error = (data && data.message) || response.status
                     return Promise.reject(error);
                 } else {
                     this.updateResultField(data)
                 }
             })
             .catch(error => {
-                this.setState({ errorMessage: error.toString() });
-                console.error('There was an error!', error);
-            });
+                this.setState({ errorMessage: error.toString() })
+                console.error('There was an error!', error)
+            })
     }
 
     render() {
@@ -65,7 +64,7 @@ export class MainPage extends React.Component {
                         </Form.Group>
                     </Form>
                     <Button variant="primary" onClick={this.getResult}>Проверить стих</Button>
-                    { (this.state.showResults) ? gradeOfPoemShow : null }
+                    {(this.state.showResults) ? gradeOfPoemShow : null}
                 </Container>
             </>
         )

@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import "bootstrap/dist/css/bootstrap.css"
-import {MainPage} from "../../pages/Main/MainPage"
+import {SingleUserModePage} from "../../pages/Main/SingleUserModePage"
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {LeaderBoardPage} from "../../pages/LeaderBoard/LeaderBoard"
 
@@ -10,8 +10,8 @@ const App = () => {
         <BrowserRouter>
             <Switch>
                 <Route
-                    path="/home"
-                    component={MainPage}
+                    path="/single-user-mode"
+                    component={SingleUserModePage}
                 />
                 <Route
                     path="/leaderboard"
