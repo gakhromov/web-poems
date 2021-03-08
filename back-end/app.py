@@ -26,6 +26,7 @@ def hello_world():
 @app.route('/poem-info', methods=['POST'])
 def poem_info():
     poem = request.json['poem']
+    username = request.json['username']
     info = get_poem_info(poem)
     grades = grade_poem(info)
     return {

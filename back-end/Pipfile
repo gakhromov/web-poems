@@ -9,6 +9,7 @@ pymongo = "*"
 pusher = "*"
 russtress = "*"
 rusyllab = {git = "https://github.com/Koziev/rusyllab"}
+flask-pymongo = "*"
 
 [dev-packages]
 
