@@ -3,6 +3,7 @@ import random
 
 from flask import Flask, request
 from flask_pymongo import PyMongo,pymongo
+from flask_cors import CORS 
 import pusher
 
 from src.poem_grader import get_poem_info, grade_poem
@@ -13,6 +14,7 @@ from bson import json_util
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb+srv://grishauser:grishapass@webpoemsmongo.nbpsd.mongodb.net/app?retryWrites=true&w=majority'
+CORS(app)
 
 mongo = PyMongo(app)
 leaderboard = mongo.db.leaderboard

@@ -11,6 +11,7 @@ russtress = "*"
 rusyllab = {git = "https://github.com/Koziev/rusyllab"}
 flask-pymongo = "*"
 dnspython = "*"
+flask-cors = "*"
 
 [dev-packages]
 
