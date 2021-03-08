@@ -10,6 +10,7 @@ pusher = "*"
 russtress = "*"
 rusyllab = {git = "https://github.com/Koziev/rusyllab"}
 flask-pymongo = "*"
+dnspython = "*"
 
 [dev-packages]
 
