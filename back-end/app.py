@@ -35,7 +35,8 @@ def parse_json(data):
 
 @app.route('/delete/shit', methods = ['POST'])
 def deleteDataInDBEspesiallyForGrigoryKhromov():
-    leaderboard.delete_many()
+    res = leaderboard.delete_many({})
+    return {"message":f' deleted {res.deleted_count} pieces of shit'}, 200
 
 
 @app.route('/leaderboard', methods = ['GET'])
