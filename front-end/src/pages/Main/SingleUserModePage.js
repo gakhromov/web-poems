@@ -1,14 +1,11 @@
 import React from 'react'
 import {Container, Form, Button, Alert} from "react-bootstrap"
-import {NavigationBar} from "../../components/nav/Nav"
+import {NavigationBar} from "../../components/NavigationBar/NavigationBar"
 
 export class SingleUserModePage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            showResults: false,
-            grade: null,
-        }
+    state = {
+        showResults: false,
+        grade: null,
     }
 
     updateResultField = (data) => {
@@ -50,7 +47,7 @@ export class SingleUserModePage extends React.Component {
 
         return (
             <>
-                <NavigationBar/>
+                <NavigationBar activePage="single-user-mode" />
                 <Container>
                     <Form>
                         <Form.Group controlId="exampleForm.ControlInput1">

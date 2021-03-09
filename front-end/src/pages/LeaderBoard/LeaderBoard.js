@@ -1,14 +1,12 @@
 import React from "react"
-import {NavigationBar} from "../../components/nav/Nav";
-import {Container, Table} from "react-bootstrap";
+import {NavigationBar} from "../../components/NavigationBar/NavigationBar"
+import {Container, Table} from "react-bootstrap"
 
 export class LeaderBoardPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            users: []
-        }
+    state = {
+        users: []
     }
+
     componentDidMount() {
         const requestOptions = {
             method: 'POST',
@@ -34,7 +32,7 @@ export class LeaderBoardPage extends React.Component {
         ))
         return(
             <>
-                <NavigationBar />
+                <NavigationBar activePage="leaderboard" />
                 <Container>
                     <Table striped bordered hover>
                         <thead>
