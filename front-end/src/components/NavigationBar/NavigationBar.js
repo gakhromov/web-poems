@@ -2,11 +2,10 @@ import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 
 export const NavigationBar = (props) => {
-    console.log(props)
     return (
         <Navbar bg="light" variant="light" >
             <Navbar.Brand href="/">
-                <img src="/logo.png" alt="" height="50"/>
+                <img src="/logo.png" alt="" height="30"/>
             </Navbar.Brand>
 
             <Nav className="mr-auto" defaultActiveKey={props.activePage}>
