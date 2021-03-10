@@ -5,9 +5,9 @@
       <div class="col">
         <div class="form-group">
           <label for="username">Ваше имя</label>
-          <input v-model="username" type="text" class="form-control" id="username">
+          <input v-model="username" type="text" class="form-control" id="username" placeholder="Вася">
         </div>
-        <button @click="startGame" type="button" class="btn btn-primary">Начать игру</button>
+        <button @click="startGame" type="button" class="btn btn-success">Начать игру</button>
       </div>
     </div>
   </div>
@@ -20,12 +20,15 @@ export default {
   name: "JoinComponent",
   data() {
     return {
-      username: "Игрок",
+      username: "",
     };
   },
   methods: {
     startGame() {
-      this.$router.push({name: 'Competition', params: {username: this.username}});
+      if (this.username == "")
+        alert("Введите имя!");
+      else
+        this.$router.push({name: 'Competition', params: {username: this.username}});
     },
   },
 }
