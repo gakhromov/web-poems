@@ -97,6 +97,7 @@ def poem_info():
 def create_new_game():
     username = request.json['username']
     session_id = hash(time.time())
+    vault.sessions[session_id] = {}
     vault.sessions[session_id]['players'] = [username]
     return {
         'session_id': session_id

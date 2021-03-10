@@ -12,7 +12,7 @@ export class Competition extends React.Component {
         return (
             <>
                 <Container>
-                    {this.props.location.state.username} hi
+                    {this.props.location.state.username} hi {this.props.location.state.sessionId}
                 </Container>
             </>
         )
