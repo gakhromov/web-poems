@@ -1,26 +1,32 @@
 <template>
   <div class="container">
+    <h1>Оценка стихотворения</h1><br>
     <form>
       <div class="form-group">
         <label for="username">Введите Ваше имя</label>
-        <input v-model="username" type="text" class="form-control" id="username">
+        <input v-model="username" type="text" class="form-control" id="username" placeholder="Вася">
       </div>
       <div class="form-group">
         <label for="poem">Ваше стихотворение</label>
-        <textarea v-model="poem" class="form-control" id="poem" rows="3"></textarea>
+        <textarea v-model="poem" class="form-control" id="poem" rows="3" placeholder="Люблю грозу в начале мая..."></textarea>
       </div>
       <button @click="sendPoem" type="button" class="btn btn-success">Отправить</button>
       <br><br>
-      <label v-if="poemGrade != null" class="result">Количество набранных баллов = <b>{{poemGrade}}</b>. Место в лидерборде = <b>{{rank}}</b></label>
+      <div v-if="poemGrade != null">
+        <label>Ваш результат:</label><br>
+        <label class="result">Количество набранных баллов = <b>{{poemGrade}}</b>. Место в лидерборде = <b>{{rank}}</b></label>
+      </div>
     </form>
   </div>
 </template>
 
 <style scoped>
 .result {
-  background: lightblue;
-  border: 2px solid darkcyan;
+  background: #dcd2cc;
+  border: 2px solid #ccafa5;
+  color: #78655a;
   border-radius: 5px;
+  padding: 2px;
 }
 </style>
 

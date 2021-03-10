@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>Участвовать в соревновании</h1><br>
     <div class="row">
       <div class="col">
         <div class="form-group">

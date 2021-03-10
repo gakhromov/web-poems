@@ -8,7 +8,7 @@
 
 <style scoped>
 div.main {
-  background-color: darkgray;
+  background-color: lightgray;
   margin-top: 30px;
 }
 p {
