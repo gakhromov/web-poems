@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {Container, Button, Modal, Form, Row, Col} from 'react-bootstrap'
 import {NavigationBar} from '../../components/NavigationBar/NavigationBar'
+import {Competition} from '../../pages/Competition/Competition'
 import Popup from 'reactjs-popup';
 
 export class JoinCompetition extends React.Component {
@@ -10,6 +11,7 @@ export class JoinCompetition extends React.Component {
         this.state = {
             username: "Игрок",
             sessionId: 1,
+            showCompetition: false,
         };
 
     }
@@ -44,10 +46,7 @@ export class JoinCompetition extends React.Component {
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
             } else {
-                this.setState({sessionId: data.session_id});
-                console.log(this.state);
-                console.log(data.session_id);
-                // Redirect
+                this.setState({sessionId: data.session_id, showCompetition: true});
             }
         })
         .catch(error => {
@@ -57,7 +56,8 @@ export class JoinCompetition extends React.Component {
     }
 
     render() {
-        return (
+        if (!this.state.showCompetition)
+            return (
             <>
                 <NavigationBar activePage="join-competition"/>
                 <Container>
@@ -104,9 +104,7 @@ export class JoinCompetition extends React.Component {
                                     </Modal.Body>
 
                                     <Modal.Footer>
-                                        <Link to={{pathname: "/competition", state: this.state}}>
-                                            <Button variant="primary">Присоединиться</Button>
-                                        </Link>
+                                        <Button variant="primary">Присоединиться</Button>
                                     </Modal.Footer>
                                     </Modal.Dialog>
                                 )}
@@ -114,14 +112,16 @@ export class JoinCompetition extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-                    {/* <Button variant="outline-primary" size="lg">Присоединиться</Button>
-                    <InputGroup>
-                        <InputGroup.Append>
-                            <Link to={{pathname: "/competition", state: {username: this.state.username}}}>
-                            </Link> */}
-
-                        {/* </InputGroup.Append>
-                    </InputGroup> */}
+            </>
+        )
+        return (
+            <>
+                <NavigationBar activePage="join-competition"/>
+                <Container>
+                    <Competition 
+                        username={this.state.username}
+                        sessionId={this.sessionId}/>
+                </Container>
             </>
         )
     }
