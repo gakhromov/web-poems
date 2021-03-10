@@ -94,15 +94,15 @@ def poem_info():
     }, 200
 
 
-@app.route('/game/new', methods=['POST'])
-def create_new_game():
-    username = request.json['username']
-    session_id = hash(time.time())
-    vault.sessions[session_id] = {}
-    vault.sessions[session_id]['player'] = username
-    return {
-        'session_id': str(session_id)
-    }, 200
+# @app.route('/game/new', methods=['POST'])
+# def create_new_game():
+#     username = request.json['username']
+#     session_id = hash(time.time())
+#     vault.sessions[session_id] = {}
+#     vault.sessions[session_id]['player'] = username
+#     return {
+#         'session_id': str(session_id)
+#     }, 200
 
 
 # @app.route('/game/join', methods=['POST'])
@@ -130,9 +130,13 @@ def create_new_game():
 
 @app.route('/game/start', methods=['POST'])
 def start_game():
-    session_id = request.json['session_id']
-    if session_id not in vault.sessions.keys():
-        return {}, 400
+    username = request.json['username']
+    session_id = hash(time.time())
+    vault.sessions[session_id] = {}
+    vault.sessions[session_id]['player'] = username
+
+    # if session_id not in vault.sessions.keys():
+    #     return {}, 400
 
     # playersAmount = len(vault.sessions[session_id]['players'])
     # if playersAmount < 2:
