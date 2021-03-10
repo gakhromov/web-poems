@@ -7,7 +7,7 @@ from flask_cors import CORS
 import pusher
 
 from src.poem_grader import get_poem_info, grade_poem
-import src.vault
+import src.vault as vault
 
 import json
 from bson import json_util
