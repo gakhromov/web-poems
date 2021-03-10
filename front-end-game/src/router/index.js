@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import JoinCompetition from '../components/JoinCompetition'
-import Competition from '../components/Competition'
+import JoinCompetition from '@/components/JoinCompetition'
+import Competition from '@/components/Competition'
+import GradeYourPoem from '@/components/GradeYourPoem'
+import LeaderBoard from '@/components/LeaderBoard'
 
 Vue.use(VueRouter)
 
@@ -17,6 +19,16 @@ const routes = [
     name: 'Competition',
     component: Competition,
     props: true,
+  },
+  {
+    path: '/grade-your-poem',
+    name: 'GradeYourPoem',
+    component: GradeYourPoem,
+  },
+  {
+    path: '/leaderboard',
+    name: 'LeaderBoard',
+    component: LeaderBoard,
   },
   {
     path: '*',
