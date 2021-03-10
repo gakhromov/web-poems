@@ -40,4 +40,12 @@ export default {
 h1 {
   font-family: 'Caveat', sans-serif;
 }
+
+.result-notice {
+  background: #dcd2cc;
+  border: 2px solid #ccafa5;
+  color: #78655a;
+  border-radius: 5px;
+  padding: 2px;
+}
 </style>

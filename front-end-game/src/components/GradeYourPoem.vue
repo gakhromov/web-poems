@@ -14,21 +14,11 @@
       <br><br>
       <div v-if="poemGrade != null">
         <label>Ваш результат:</label><br>
-        <label class="result">Количество набранных баллов = <b>{{poemGrade}}</b>. Место в лидерборде = <b>{{rank}}</b></label>
+        <label class="result-notice">Количество набранных баллов = <b>{{poemGrade}}</b>. <br>Место в лидерборде = <b>{{rank}}</b></label>
       </div>
     </form>
   </div>
 </template>
-
-<style scoped>
-.result {
-  background: #dcd2cc;
-  border: 2px solid #ccafa5;
-  color: #78655a;
-  border-radius: 5px;
-  padding: 2px;
-}
-</style>
 
 <script>
 import axios from 'axios'

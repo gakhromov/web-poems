@@ -1,5 +1,16 @@
 <template>
   <div class="container">
+    <h1>Категории</h1>
+    <div class="row">
+      <div class="col">
+        <a v-if="isSingle"><h4>Оцени свой стих</h4></a>
+        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4>Оцени свой стих</h4></a>
+      </div>
+      <div class="col">
+        <a v-if="!isSingle"><h4>Соревнование</h4></a>
+        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4>Соревнование</h4></a>
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -10,15 +21,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(line, index) in leaderboard" :key=line.rank>
+        <div v-if="isSingle">
+        <tr v-for="(line, index) in leaderboardSingle" :key=line.rank>
           <th scope="row">{{index+1}}</th>
           <td>
-            <a href="#" @click="toggleShortLong($event, index)" v-if="line.showShort"><pre>{{line.shortPoem}}<span> ...</span></pre></a>
-            <a href="#" @click="toggleShortLong($event, index)" v-else><pre>{{line.poem}}</pre></a>
+            <a @click="$refs['single'+index][0].$data.show = !$refs['single'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
+            <b-collapse :ref="'single'+index">
+            <pre style="margin-top: -18px">{{line.restPoem}}</pre>
+            </b-collapse>
           </td>
           <td>{{line.userscores[0].username}}</td>
           <td>{{line.userscores[0].score}}</td>
         </tr>
+        </div>
+        <div v-else>
+        <tr v-for="(line, index) in leaderboardCompetition" :key=line.rank>
+          <th scope="row">{{index+1}}</th>
+          <td>
+            <a @click="$refs['compet'+index][0].$data.show = !$refs['compet'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
+            <b-collapse :ref="'compet'+index">
+            <pre style="margin-top: -18px">{{line.restPoem}}</pre>
+            </b-collapse>
+          </td>
+          <td>{{line.userscores[0].username}}</td>
+          <td>{{line.userscores[0].score}}</td>
+        </tr>
+        </div>
       </tbody>
     </table>
   </div>
@@ -31,21 +59,38 @@ export default {
   name: "LeaderBoard",
   data() {
     return {
-      leaderboard: [],
+      leaderboardSingle: [],
+      leaderboardCompetition: [],
       isSingle: true,
       amount: 100,
     };
   },
   created() {
     axios.post(`${this.$back}/leaderboard`, {
-      single: this.isSingle,
+      single: true,
       amount: this.amount,
     })
     .then((response) => {
-      this.leaderboard = response.data.leaderboard;
-      for (let i=0; i<this.leaderboard.length; i++) {
-        this.leaderboard[i].shortPoem = this.showPartOfPoem(this.leaderboard[i].poem);
-        this.leaderboard[i].showShort = true;
+      this.leaderboardSingle = response.data.leaderboard;
+      for (let i=0; i<this.leaderboardSingle.length; i++) {
+        let splits = this.splitPoem(this.leaderboardSingle[i].poem);
+        this.leaderboardSingle[i].shortPoem = splits[0];
+        this.leaderboardSingle[i].restPoem = splits[1];
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    axios.post(`${this.$back}/leaderboard`, {
+      single: false,
+      amount: this.amount,
+    })
+    .then((response) => {
+      this.leaderboardCompetition = response.data.leaderboard;
+      for (let i=0; i<this.leaderboardCompetition.length; i++) {
+        let splits = this.splitPoem(this.leaderboardCompetition[i].poem);
+        this.leaderboardCompetition[i].shortPoem = splits[0];
+        this.leaderboardCompetition[i].restPoem = splits[1];
       }
     })
     .catch((error) => {
@@ -53,13 +98,12 @@ export default {
     });
   },
   methods: {
-    showPartOfPoem(poem) {
-      let lines = poem.split(/\r?\n/);
-      return lines.slice(0, 2).join("\n");
+    toggleLeaderBoardType() {
+      this.isSingle = !this.isSingle;
     },
-    toggleShortLong(event, index) {
-      this.leaderboard[index].showShort = !this.leaderboard[index].showShort;
-      this.$forceUpdate();
+    splitPoem(poem) {
+      let lines = poem.split(/\r?\n/);
+      return [lines.slice(0, 2).join("\n"), lines.slice(2).join("\n")];
     },
   }
 }
