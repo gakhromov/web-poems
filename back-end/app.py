@@ -149,7 +149,7 @@ def start_game():
     vault.sessions[session_id]['max_lines'] = maxLines
 
     neuropoemsAmount = maxLines/8
-    neuropoemsCur = neuropoems.aggregate([{ '$sample': { 'size': neuropoems } }])
+    neuropoemsCur = neuropoems.aggregate([{ '$sample': { 'size': neuropoemsAmount } }])
     neurolines = []
     for poemDoc in neuropoemsCur:
         neurolines.extend(poemDoc['poem'].split('\n'))
@@ -176,12 +176,12 @@ def start_game():
 
     vault.sessions[session_id]['lines'] = lines
     # pusher_client.trigger(f'session_{session_id}', 'lines', lines)
-    return {lines}, 200
+    return {'session_id': str(session_id), 'lines': lines}, 200
 
 
 @app.route('/game/submit', methods=['POST'])
 def submit_lines():
-    session_id = request.json['session_id']
+    session_id = int(request.json['session_id'])
     if session_id not in vault.sessions.keys():
         return {}, 400
     line1 = request.json['line1']
