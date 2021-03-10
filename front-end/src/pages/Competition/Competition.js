@@ -3,7 +3,8 @@ import {Container} from 'react-bootstrap'
 import {NavigationBar} from '../../components/NavigationBar/NavigationBar'
 
 export class Competition extends React.Component {
-    state = {
+    constructor(props) {
+        super(props);
 
     }
 
@@ -11,7 +12,7 @@ export class Competition extends React.Component {
         return (
             <>
                 <Container>
-                    Hi there
+                    {this.props.location.state.username} hi
                 </Container>
             </>
         )
