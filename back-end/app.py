@@ -152,7 +152,9 @@ def start_game():
     neuropoemsCur = neuropoems.aggregate([{ '$sample': { 'size': neuropoemsAmount } }])
     neurolines = []
     for poemDoc in neuropoemsCur:
-        neurolines.extend(poemDoc['poem'].split('\n'))
+        poemLines = poemDoc['poem'].split('\n')
+        neurolines.extend(poemLines[:-1])
+    vault.sessions[session_id]['neurolines'] = neurolines
     
 
     # random.shuffle(vault.sessions[session_id]['players'])
@@ -214,15 +216,14 @@ def submit_lines():
                         'score':userGrades
                     },
                     {
-                        'username':NN,
+                        'username':None,
                         'score':-999,
                     }
                 ], 
                 score)
 
         return {
-            'info': info,
-            'grades': score,
+            'score': score,
             'rank' : rank
         }, 201
 
@@ -230,11 +231,11 @@ def submit_lines():
 
     vault.sessions[session_id]['lines'].extend(
     [{
-        'line': neurolines[len(vault.sessions[session_id]['lines']/2+1)],
+        'line': vault.sessions[session_id]['neurolines'][int(len(vault.sessions[session_id]['lines'])/2)],
         'player': None,
     },
     {
-        'line': neurolines[len(vault.sessions[session_id]['lines']/2+2)],
+        'line': vault.sessions[session_id]['neurolines'][int(len(vault.sessions[session_id]['lines'])/2+1)],
         'player': None,
     },
     {
@@ -247,7 +248,7 @@ def submit_lines():
     }])
 
     # pusher_client.trigger(f'session_{session_id}', 'lines', vault.sessions[session_id]['lines'])
-    return {vault.sessions[session_id]['lines']}, 200
+    return {'lines' : vault.sessions[session_id]['lines']}, 200
 
 
 
