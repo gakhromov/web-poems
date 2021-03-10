@@ -11,18 +11,17 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <NavBar/>
-  <JoinCompetition/>
+  <router-view/>
   </div>
 </template>
 
 <script>
 import NavBar from './components/NavBar'
-import JoinCompetition from './components/JoinCompetition'
 
 export default {
   name: 'App',
   components: {
-    NavBar, JoinCompetition
+    NavBar
   }
 }
 </script>
