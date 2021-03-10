@@ -100,17 +100,19 @@ def create_new_game():
     vault.sessions[session_id] = {}
     vault.sessions[session_id]['players'] = [username]
     return {
-        'session_id': session_id
+        'session_id': str(session_id)
     }, 200
 
 
 @app.route('/game/join', methods=['POST'])
 def join_game():
     username = request.json['username']
-    session_id = request.json['session_id']
+    session_id = int(request.json['session_id'])
     if session_id not in vault.sessions.keys():
+        print('Session not in db')
         return {}, 400
     if username in vault.sessions[session_id]['players']:
+        print('Same player not allowed')
         return {}, 400
     vault.sessions[session_id]['players'].append(username)
     return {}, 200
