@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import HomePage from '@/components/HomePage'
 import JoinCompetition from '@/components/JoinCompetition'
 import Competition from '@/components/Competition'
 import GradeYourPoem from '@/components/GradeYourPoem'
@@ -10,6 +11,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'HomePage',
+    component: HomePage,
+  },
+  {
+    path: '/join-competition',
     name: 'JoinCompetition',
     component: JoinCompetition,
     props: true,
