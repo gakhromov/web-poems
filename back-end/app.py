@@ -18,6 +18,7 @@ CORS(app)
 
 mongo = PyMongo(app)
 leaderboard = mongo.db.leaderboard
+neuropoems = mongo.db.neuropoems
 
 print(mongo.db.list_collection_names())
 
@@ -98,33 +99,33 @@ def create_new_game():
     username = request.json['username']
     session_id = hash(time.time())
     vault.sessions[session_id] = {}
-    vault.sessions[session_id]['players'] = [username]
+    vault.sessions[session_id]['player'] = username
     return {
         'session_id': str(session_id)
     }, 200
 
 
-@app.route('/game/join', methods=['POST'])
-def join_game():
-    username = request.json['username']
-    session_id = int(request.json['session_id'])
-    if session_id not in vault.sessions.keys():
-        print('Session not in db')
-        return {}, 400
-    if username in vault.sessions[session_id]['players']:
-        print('Same player not allowed')
-        return {}, 400
-    vault.sessions[session_id]['players'].append(username)
-    return {}, 200
+# @app.route('/game/join', methods=['POST'])
+# def join_game():
+#     username = request.json['username']
+#     session_id = int(request.json['session_id'])
+#     if session_id not in vault.sessions.keys():
+#         print('Session not in db')
+#         return {}, 400
+#     if username in vault.sessions[session_id]['players']:
+#         print('Same player not allowed')
+#         return {}, 400
+#     vault.sessions[session_id]['players'].append(username)
+#     return {}, 200
 
 
 
-@app.route('/game/players', methods=['GET'])
-def get_players():
-    session_id = request.json['session_id']
-    if session_id not in vault.sessions.keys():
-        return {}, 400
-    return {'players': vault.sessions[session_id]['players']}, 200
+# @app.route('/game/players', methods=['GET'])
+# def get_players():
+#     session_id = request.json['session_id']
+#     if session_id not in vault.sessions.keys():
+#         return {}, 400
+#     return {'players': vault.sessions[session_id]['players']}, 200
 
 
 @app.route('/game/start', methods=['POST'])
@@ -133,41 +134,118 @@ def start_game():
     if session_id not in vault.sessions.keys():
         return {}, 400
 
-    random.shuffle(vault.sessions[session_id]['players'])
+    # playersAmount = len(vault.sessions[session_id]['players'])
+    # if playersAmount < 2:
+    #     return {'Not enough players'} , 420
+    
+    
+    # maxLines = len(vault.sessions[session_id]['players']) * 4
+  
+    maxLines = 16
+    vault.sessions[session_id]['max_lines'] = maxLines
+
+    neuropoemsAmount = maxLines/8
+    neuropoemsCur = neuropoems.aggregate([{ '$sample': { 'size': neuropoems } }])
+    neurolines = []
+    for poemDoc in neuropoemsCur:
+        neurolines.extend(poemDoc['poem'].split('\n'))
+    
+
+    # random.shuffle(vault.sessions[session_id]['players'])
 
     lines = [{
-        'line': 'Как прекрасна утром весна',
+        'line': neurolines[0],
+        'player': None,
+    },
+    {
+        'line': neurolines[1],
         'player': None,
     },
     {
         'line': None,
-        'player': vault.sessions[session_id]['players'][0]
-    }
-    ]        
+        'player': vault.sessions[session_id]['player']
+    },
+    {
+        'line': None,
+        'player': vault.sessions[session_id]['player']
+    }]
+
     vault.sessions[session_id]['lines'] = lines
-    pusher_client.trigger(f'session_{session_id}', 'lines', lines)
-    return {}, 200
+    # pusher_client.trigger(f'session_{session_id}', 'lines', lines)
+    return {lines}, 200
 
 
 @app.route('/game/submit', methods=['POST'])
-def submit_line():
+def submit_lines():
     session_id = request.json['session_id']
     if session_id not in vault.sessions.keys():
         return {}, 400
-    new_line = request.json['new_line']
-    username = request.json['username']
-    if username != vault.sessions[session_id]['lines'][-1]['player']:
-        return {}, 400
-    vault.sessions[session_id]['lines'][-1]['line'] = new_line
+    line1 = request.json['line1']
+    line2 = request.json['line2']
+    # username = request.json['username']
+    # if username != vault.sessions[session_id]['lines'][-1]['player']:
+    #     return {}, 400
+    vault.sessions[session_id]['lines'][-2]['line'] = line1
+    vault.sessions[session_id]['lines'][-1]['line'] = line2
 
-    new_player = (len(vault.sessions[session_id]['lines'])-1) % len(vault.sessions[session_id]['players'])
+    if len(vault.sessions[session_id]['lines']) >= vault.sessions[session_id]['max_lines']:
+        poem = '\n'.join([lines['line'] for lines in vault.sessions[session_id]['lines']])
+        info = get_poem_info(poem)
+        grades = grade_poem(info)
+        
 
-    vault.sessions[session_id]['lines'].append({
+        # userGrades=[{user:0} for user in vault.sessions[session_id]['players']]
+        userGrades = 0
+        for id_,lineInfo in enumerate(vault.sessions[session_id]['lines']):
+            if lineInfo['player'] != None:
+                userGrades+=grades[str(id_)]['points']
+        # userGrades = [{'username' : k,'score' : v } for k,v in userGrades.items()]
+        score = userGrades
+        rank = leaderboard.count_documents({"playersamount": {'$gt':1} ,'generalscore':{'$gt':score}}) + 1
+        
+        postIntoDB(poem, 
+                [
+                    {
+                        'username':vault.sessions[session_id]['player'],
+                        'score':userGrades
+                    },
+                    {
+                        'username':NN,
+                        'score':-999,
+                    }
+                ], 
+                score)
+
+        return {
+            'info': info,
+            'grades': score,
+            'rank' : rank
+        }, 201
+
+    # new_player = (len(vault.sessions[session_id]['lines'])-2) % len(vault.sessions[session_id]['players'])
+
+    vault.sessions[session_id]['lines'].extend(
+    [{
+        'line': neurolines[len(vault.sessions[session_id]['lines']/2+1)],
+        'player': None,
+    },
+    {
+        'line': neurolines[len(vault.sessions[session_id]['lines']/2+2)],
+        'player': None,
+    },
+    {
         'line': None,
-        'player': vault.sessions[session_id]['players'][new_player]
-    })
-    pusher_client.trigger(f'session_{session_id}', 'lines', vault.sessions[session_id]['lines'])
-    return {}, 200
+        'player': vault.sessions[session_id]['player']
+    },
+    {
+        'line': None,
+        'player': vault.sessions[session_id]['player']
+    }])
+
+    # pusher_client.trigger(f'session_{session_id}', 'lines', vault.sessions[session_id]['lines'])
+    return {vault.sessions[session_id]['lines']}, 200
+
+
 
 
 if __name__ == '__main__':
