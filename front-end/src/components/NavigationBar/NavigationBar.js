@@ -11,7 +11,7 @@ export const NavigationBar = (props) => {
 
             <Nav className="mr-auto" defaultActiveKey={props.activePage}>
                 <Nav.Link href="single-user-mode">Оцени себя</Nav.Link>
-                <Nav.Link href="competition">Соревнование</Nav.Link>
+                <Nav.Link href="join-competition">Соревнование</Nav.Link>
                 <Nav.Link href="leaderboard">Лидер боард</Nav.Link>
             </Nav>
         </Navbar>
