@@ -17,7 +17,7 @@
         <b-nav-item>|</b-nav-item>
         <b-nav-item to="/grade-your-poem"><i class="fas fa-edit"></i> Оцени свой стих</b-nav-item>
         <b-nav-item>|</b-nav-item>
-        <b-nav-item to="/join-competition"><i class="fas fa-user-alt"></i><b> & </b><i class="fas fa-robot"></i> Соревнование</b-nav-item>
+        <b-nav-item to="/join-competition"><i class="fas fa-user-alt"></i><b class="fas"> & </b><i class="fas fa-robot"></i> Соревнование</b-nav-item>
         <b-nav-item>|</b-nav-item>
         <b-nav-item to="/leaderboard"><i class="fas fa-table"></i> Лидерборд</b-nav-item>
       </b-navbar-nav>
@@ -26,10 +26,6 @@
 </template>
 
 <style scoped>
-i, b {
-  color: #976f4f;
-}
-
 img {
   height: 50px;
 }
