@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                 <h5>Игра-соревнование</h5><br>
-                <span v-for="line in poemLines" :key="line.line">
+                <span v-for="(line, index) in poemLines" :key="index">
                     <div v-if="line.player == null" class="row">
                         <div class="col-3"><p>Компьютер</p></div>
                         <div class="col-9">{{line.line}}</div>
@@ -59,11 +59,10 @@ export default {
     props: ["username"],
     data() {
         return {
-            poemLines: [],
+            poemLines: [{line: "", player: null}, {line: "", player: null}],
             firstLine: "",
             secondLine: "",
             sessionId: null,
-            writtenLines: [],
             gameFinished: false,
         };
     },
