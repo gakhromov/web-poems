@@ -21,8 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <div v-if="isSingle">
-        <tr v-for="(line, index) in leaderboardSingle" :key=line.rank>
+        <tr v-for="(line, index) in leaderboardSingle" :key=line.rank v-show="isSingle">
           <th scope="row">{{index+1}}</th>
           <td>
             <a @click="$refs['single'+index][0].$data.show = !$refs['single'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
@@ -33,9 +32,7 @@
           <td>{{line.userscores[0].username}}</td>
           <td>{{line.userscores[0].score}}</td>
         </tr>
-        </div>
-        <div v-else>
-        <tr v-for="(line, index) in leaderboardCompetition" :key=line.rank>
+        <tr v-for="(line, index) in leaderboardCompetition" :key=line.rank v-show="!isSingle">
           <th scope="row">{{index+1}}</th>
           <td>
             <a @click="$refs['compet'+index][0].$data.show = !$refs['compet'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
@@ -46,7 +43,6 @@
           <td>{{line.userscores[0].username}}</td>
           <td>{{line.userscores[0].score}}</td>
         </tr>
-        </div>
       </tbody>
     </table>
   </div>

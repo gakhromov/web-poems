@@ -2,7 +2,7 @@
     <div class="container">
         <h1>Соревнование</h1><br>
         <div class="row">
-            <div class="col-9">
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                 <h5>Игра-соревнование</h5><br>
                 <span v-for="line in poemLines" :key="line.line">
                     <div v-if="line.player == null" class="row">
@@ -16,12 +16,12 @@
                     <div v-else></div>
                 </span>
                 <div v-if="poemLines[poemLines.length-2].line == null" class="row" style="margin-bottom: 10px">
-                    <div class="col-3"><button @click="recordFirstLine" type="button" class="btn btn-success">✔</button></div>
+                    <div class="col-3 text-right"><button @click="recordFirstLine" type="button" class="btn btn-success">✔</button></div>
                     <div class="col-9"><input v-model="firstLine" type="text" class="form-control"/></div>
                 </div>
                 <div v-if="poemLines[poemLines.length-1].line == null" class="row" style="margin-bottom: 10px">
-                    <div v-if="typeof poemLines[poemLines.length-2].line === 'string'" class="col-3"><button @click="recordSecondLine" type="button" class="btn btn-success">✔</button></div>
-                    <div v-else class="col-3"><button @click="recordSecondLine" type="button" disabled class="btn btn-success">✔</button></div>
+                    <div v-if="typeof poemLines[poemLines.length-2].line === 'string'" class="col-3 text-right"><button @click="recordSecondLine" type="button" class="btn btn-success">✔</button></div>
+                    <div v-else class="col-3 text-right"><button @click="recordSecondLine" type="button" disabled class="btn btn-success">✔</button></div>
                     <div class="col-9"><input v-model="secondLine" type="text" class="form-control"/></div>
                 </div>
                 <div v-if="gameFinished">
@@ -30,7 +30,7 @@
                     <label class="result-notice">Количество набранных баллов = <b>{{score}}</b>. <br>Место в лидерборде = <b>{{rank}}</b></label>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-none d-md-block">
                 <h5>Имя игрока</h5><br>
                 <ul class="list-group">
                     <li>{{username}}</li>
@@ -74,11 +74,14 @@ export default {
     },
     methods: {
         recordFirstLine() {
-            this.poemLines[this.poemLines.length-2].line = this.firstLine;
+            if (this.firstLine != "")
+                this.poemLines[this.poemLines.length-2].line = this.firstLine;
         },
         recordSecondLine() {
-            this.poemLines[this.poemLines.length-1].line = this.secondLine;
-            this.getNewLines();
+            if (this.secondLine != "") {
+                this.poemLines[this.poemLines.length-1].line = this.secondLine;
+                this.getNewLines();
+            }
         },
         getNewLines() {
             axios.post(`${this.$back}/game/submit`, {
