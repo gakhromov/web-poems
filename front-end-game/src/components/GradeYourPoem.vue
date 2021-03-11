@@ -31,6 +31,7 @@
         <img src="@/assets/grade-your-poem.jpg" class="regular" height="550px"/>
       </div>
     </div>
+  <br><br>
   </div>
 </template>
 

@@ -26,25 +26,28 @@
                 </div>
                 <div v-if="gameFinished">
                     <h4>Поздравляем, <b>соревнование</b> завершено!</h4>
-                    <label>Ваш результат:</label>
+                    <label>Ваш результат:</label><br>
                     <label class="result-notice">Количество набранных баллов = <b>{{score}}</b>. <br>Место в лидерборде = <b>{{rank}}</b></label>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 d-none d-md-block">
                 <h5>Имя игрока</h5><br>
-                <ul class="list-group">
-                    <li><p style="color: #976f4f"><b>{{username}}</b></p></li>
-                </ul>
+                <p class="username"><b>{{username}}</b></p>
                 <br><br>
                 <iframe src="https://giphy.com/embed/WRRL1EKo9rNe12S4zh" width="240" height="180" frameBorder="0" class="giphy-embed regular"></iframe>
             </div>
         </div>
+    <br><br>
     </div>
 </template>
 
 <style scoped>
 p {
     color: darkgray;
+}
+p.username {
+    color: #976f4f;
+    font-size: 20px;
 }
 </style>
 

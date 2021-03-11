@@ -21,6 +21,7 @@
         <img src="@/assets/competition.jpg" class="regular" height="550px"/>
       </div>
     </div>
+  <br><br>
   </div>
 </template>
 
