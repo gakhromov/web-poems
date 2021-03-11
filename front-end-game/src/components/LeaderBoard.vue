@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <h1>Категории</h1>
+    <h1 data-aos="fade">Категории</h1>
     <div class="row">
       <div class="col">
-        <a v-if="isSingle"><h4>Оцени свой стих</h4></a>
-        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4>Оцени свой стих</h4></a>
+        <a v-if="isSingle"><h4 data-aos="fade">Оцени свой стих</h4></a>
+        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4 data-aos="fade">Оцени свой стих</h4></a>
       </div>
       <div class="col">
-        <a v-if="!isSingle"><h4>Соревнование</h4></a>
-        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4>Соревнование</h4></a>
+        <a v-if="!isSingle"><h4 data-aos="fade">Соревнование</h4></a>
+        <a href="#" @click="toggleLeaderBoardType" v-else style="color: lightgray"><h4 data-aos="fade">Соревнование</h4></a>
       </div>
     </div>
     <table class="table">
       <thead>
-        <tr>
+        <tr data-aos="fade">
           <th scope="col">#</th>
           <th scope="col">Текст стихотворения</th>
           <th scope="col">Автор</th>
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(line, index) in leaderboardSingle" :key=line.rank v-show="isSingle">
+        <tr data-aos="fade-down" v-for="(line, index) in leaderboardSingle" :key=line.rank v-show="isSingle">
           <th scope="row">{{index+1}}</th>
           <td>
             <a @click="$refs['single'+index][0].$data.show = !$refs['single'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
@@ -32,7 +32,7 @@
           <td>{{line.userscores[0].username}}</td>
           <td>{{line.userscores[0].score}}</td>
         </tr>
-        <tr v-for="(line, index) in leaderboardCompetition" :key=line.rank v-show="!isSingle">
+        <tr data-aos="fade-down" v-for="(line, index) in leaderboardCompetition" :key=line.rank v-show="!isSingle">
           <th scope="row">{{index+1}}</th>
           <td>
             <a @click="$refs['compet'+index][0].$data.show = !$refs['compet'+index][0].$data.show"><pre>{{line.shortPoem}}</pre></a>
@@ -62,6 +62,8 @@ export default {
     };
   },
   created() {
+    if (this.$route.query.showSingle !== undefined)
+      this.isSingle = (this.$route.query.showSingle === 'true');
     axios.post(`${this.$back}/leaderboard`, {
       single: true,
       amount: this.amount,

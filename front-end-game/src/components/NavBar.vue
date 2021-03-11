@@ -14,12 +14,19 @@
     <b-collapse id="navbar-toggle-collapse" is-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/"><i class="fas fa-home"></i> Домой</b-nav-item>
-        <b-nav-item>|</b-nav-item>
+        <b-nav-item class="d-none d-lg-block">|</b-nav-item>
         <b-nav-item to="/grade-your-poem"><i class="fas fa-edit"></i> Оцени свой стих</b-nav-item>
-        <b-nav-item>|</b-nav-item>
+        <b-nav-item class="d-none d-lg-block">|</b-nav-item>
         <b-nav-item to="/join-competition"><i class="fas fa-user-alt"></i><b class="fas"> & </b><i class="fas fa-robot"></i> Соревнование</b-nav-item>
-        <b-nav-item>|</b-nav-item>
-        <b-nav-item to="/leaderboard"><i class="fas fa-table"></i> Лидерборд</b-nav-item>
+        <b-nav-item class="d-none d-lg-block">|</b-nav-item>
+        <b-nav-item-dropdown right>
+          <template #button-content>
+            <i class='fas fa-table'></i> Лидерборд
+          </template>
+          <b-dropdown-item :to="{path: '/leaderboard', query: {showSingle: true}}">Оцени свой стих</b-dropdown-item>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item :to="{path: '/leaderboard', query: {showSingle: false}}">Соревнование</b-dropdown-item>
+        </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>

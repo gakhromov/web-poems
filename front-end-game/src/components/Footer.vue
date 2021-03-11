@@ -1,7 +1,7 @@
 <template>
   <footer id="sticky-footer" class="py-4 bg-light">
     <div class="container text-center">
-      <p>Copyright &copy; 2021 Хромов Г.А., Шульгин М.А., Курышева М.</p>
+      <p>Copyright &copy; 2021 Хромов Г.А., Шульгин М.А., Курышева М.Д.</p>
     </div>
   </footer>
 </template>

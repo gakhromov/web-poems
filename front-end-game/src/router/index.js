@@ -35,6 +35,7 @@ const routes = [
     path: '/leaderboard',
     name: 'LeaderBoard',
     component: LeaderBoard,
+    props: true,
   },
   {
     path: '*',
