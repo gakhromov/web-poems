@@ -5,6 +5,7 @@ import JoinCompetition from '@/components/JoinCompetition'
 import Competition from '@/components/Competition'
 import GradeYourPoem from '@/components/GradeYourPoem'
 import LeaderBoard from '@/components/LeaderBoard'
+import GeneratePoem from '@/components/GeneratePoem'
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
     name: 'LeaderBoard',
     component: LeaderBoard,
     props: true,
+  },
+  {
+    path: '/generate-poem',
+    name: 'GeneratePoem',
+    component: GeneratePoem,
   },
   {
     path: '*',
