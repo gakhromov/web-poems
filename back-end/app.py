@@ -94,6 +94,13 @@ def poem_info():
     }, 200
 
 
+@app.route('/neuropoem', methods=['GET'])
+def getNeuroPoem():
+    poemDocs = neuropoems.aggregate([{ '$sample': { 'size': 1 }}])
+    for doc in poemDocs:
+        poem = doc['poem']
+    return {'poem':poem},200
+
 # @app.route('/game/new', methods=['POST'])
 # def create_new_game():
 #     username = request.json['username']
